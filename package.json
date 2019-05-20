@@ -1,0 +1,23 @@
+{
+  "name": "word-guess-cli",
+  "version": "1.0.0",
+  "description": "Word Guess Command-line game written in JS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nchislom/word-guess-cli.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nchislom/word-guess-cli/issues"
+  },
+  "homepage": "https://github.com/nchislom/word-guess-cli#readme",
+  "dependencies": {
+    "inquirer": "^6.3.1"
+  }
+}
