@@ -1,22 +1,29 @@
 var Word = require("./Word");
 var inquirer = require("inquirer");
+var colors = require("colors/safe");
 
+// Random word bank setup
 const wordBank = ["sasquatch", "nessie", "chupacabra", "bigfoot", "vampire", "unicorn",
 "aliens", "batboy", "poltergeist", "the jersey devil", "yeti", "kraken", "lizard man",
 "mothman", "slenderman", "quetzalcoatl", "illuminati", "ghost", "greys"];
 
+// Initial game stat setup
 var guessesLeft = 10;
 var lettersGuessed = [];
 var gameOver = false;
 
-// var randomWord = wordBank[Math.floor(Math.random() * wordBank.length)];
-var randomWord = wordBank[9];
+// Begin random roll from word bank
+var randomWord = wordBank[Math.floor(Math.random() * wordBank.length)];
+
+// Create new random word object
 var word = new Word(randomWord);
 
+// Start of game/guess loop
 var nextGuess = function(){
     if(gameOver === false){
-        console.log("")
-        console.log(word.showWord() + "\n");    
+        console.log("\n" + word.showWord() + "\n");    
+        
+        // Begin user input
         inquirer.prompt([
             {
                 type: "input",
@@ -36,35 +43,37 @@ var nextGuess = function(){
 
             // Compare before and after word-states
             if(wordBeforeGuess === wordAfterGuess){
-                console.log("\nINCORRECT");
+                console.log(colors.red("\nINCORRECT"));
                 guessesLeft--;
                 console.log("Guesses Left: " + guessesLeft);
             } else {
-                console.log("\nCORRECT!");
+                console.log(colors.green("\nCORRECT!"));
                 if(!word.showWord().includes("_")){
                     gameOver = true;
                 }
             }
-
-            
+            // Check for 'game over' scenario
             if(guessesLeft < 1 && word.showWord().includes("_")){
-                console.log("\nGame Over\n\nThe word was: " + word.revealWord());
-                console.log("\nNext word...");
+                console.log(colors.yellow("\nGame Over\n"));
+                console.log(colors.yellow("The word was: " + word.revealWord()));
+                console.log(colors.yellow("\nNext word..."));
                 guessesLeft = 10;
                 lettersGuessed = [];
-                // gameOver = false;
                 var randomWord = wordBank[Math.floor(Math.random() * wordBank.length)];
                 word = new Word(randomWord);
                 nextGuess();
+
+            // Check for 'game win' scenario
             } else if(gameOver === true){
                 console.log(word.showWord());
-                console.log("\nYou got it right! Next word...");
+                console.log(colors.rainbow("\nYou got it right! Next word..."));
                 guessesLeft = 10;
                 lettersGuessed = [];
                 gameOver = false;
                 var randomWord = wordBank[Math.floor(Math.random() * wordBank.length)];
                 word = new Word(randomWord);
                 nextGuess();
+
             } else {
                 nextGuess();
             }
@@ -72,4 +81,5 @@ var nextGuess = function(){
     } 
 }
 
+// Entry point of application
 nextGuess();
