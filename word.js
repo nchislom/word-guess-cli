@@ -6,6 +6,10 @@ function Word(word){
     for(letter in word){
         var ltr = new Letter(word[letter]);
         this.word.push(ltr);
+        // Reveal spaces in word object
+        if(this.word[letter].hiddenLetter === " "){
+            this.word[letter].guessedYet = true;
+        }
     };
 
     this.showWord = function(){
@@ -13,8 +17,17 @@ function Word(word){
         for(let i=0; i<this.word.length; i++){
             currentWordState.push(this.word[i].showLetter());
         }
-        return currentWordState.join();
+        return currentWordState.join().replace(/,/g, " ");
     };
+
+    this.revealWord = function(){
+        let revealedWord = [];
+        for(letter in this.word){
+            this.word[letter].guessedYet = true;
+            revealedWord.push(this.word[letter].showLetter());
+        }
+        return revealedWord.join().replace(/,/g, " ");
+    }
 
     this.guessLetter = function(letterGuessed){
         for(letter in this.word){
@@ -24,9 +37,3 @@ function Word(word){
 }
 
 module.exports = Word;
-// Test case
-// var wrd = new Word("animal");
-// console.log("New word is: " + wrd.showWord());
-// console.log("Guessing letter: a");
-// wrd.guessLetter("a");
-// console.log("Now we get: " + wrd.showWord());
