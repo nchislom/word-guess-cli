@@ -5,7 +5,8 @@ var colors = require("colors/safe");
 // Random word bank setup
 const wordBank = ["sasquatch", "nessie", "chupacabra", "bigfoot", "vampire", "unicorn",
 "aliens", "batboy", "poltergeist", "the jersey devil", "yeti", "kraken", "lizard man",
-"mothman", "slenderman", "quetzalcoatl", "illuminati", "ghost", "greys"];
+"mothman", "slenderman", "quetzalcoatl", "illuminati", "ghost", "greys",
+"the bermuda triangle"];
 
 // Initial game stat setup
 var guessesLeft = 10;
@@ -31,7 +32,17 @@ var nextGuess = function(){
                 message: "Choose a letter:"
             }
         ]).then(function(userInput){
-            
+
+            // The IF block should bypass further letter check logic if the letter
+            // was already guessed. !!! This leads to a memory leak -- commented out
+
+            // Push user input into array of guessed letters
+            // if(!lettersGuessed.includes(userInput.letter)){
+            //     lettersGuessed.push(userInput.letter);
+            //     console.log(colors.yellow("Letter already guessed. Choose another..."));
+            //     nextGuess();
+            // }
+
             // Snapshot of word-state pre-guess
             var wordBeforeGuess = word.showWord().replace(/,/g, "");
             
@@ -52,7 +63,8 @@ var nextGuess = function(){
                     gameOver = true;
                 }
             }
-            // Check for 'game over' scenario
+
+            // LOST scenario
             if(guessesLeft < 1 && word.showWord().includes("_")){
                 console.log(colors.yellow("\nGame Over\n"));
                 console.log(colors.yellow("The word was: " + word.revealWord()));
@@ -63,7 +75,7 @@ var nextGuess = function(){
                 word = new Word(randomWord);
                 nextGuess();
 
-            // Check for 'game win' scenario
+            // WIN scenario
             } else if(gameOver === true){
                 console.log(word.showWord());
                 console.log(colors.rainbow("\nYou got it right! Next word..."));
@@ -74,11 +86,12 @@ var nextGuess = function(){
                 word = new Word(randomWord);
                 nextGuess();
 
+            // Continue recursive function game loop
             } else {
                 nextGuess();
             }
         });
-    } 
+    }
 }
 
 // Entry point of application

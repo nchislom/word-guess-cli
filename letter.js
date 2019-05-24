@@ -18,15 +18,3 @@ function Letter(hiddenLetter){
 }
 
 module.exports = Letter;
-
-// Test case...
-// var ltr = new Letter("j");
-// console.log("Guessed yet: " + ltr.guessedYet);
-// console.log("Hidden letter: " + ltr.hiddenLetter);
-// console.log("Showing letter: " + ltr.showLetter());
-// console.log("\nInputting guess as 'j'...");
-// ltr.checkLetter("j");
-// console.log("Guessed yet: " + ltr.guessedYet);
-// console.log("Hidden letter: " + ltr.hiddenLetter);
-// console.log("Showing letter: " + ltr.showLetter());
-
